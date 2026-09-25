@@ -1,0 +1,28 @@
+# Ruff Configuration for Gen'X Vision School System
+target-version = "py312"
+line-length = 100
+
+[lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "DJ",  # flake8-django
+]
+ignore = [
+    "E501",  # line length handled by formatter
+    "DJ001", # null=True on string fields (allowed when explicitly required by schema)
+]
+
+[lint.isort]
+known-first-party = ["apps", "config"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
