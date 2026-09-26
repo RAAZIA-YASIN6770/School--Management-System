@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+    Gen'X Vision School System — Health Check Template
+    ====================================================
+    Sprint:       SPRINT-01
+    Task:         Sprint-01 Task 13 — Health Check
+    Traceability: NFR-008 (Maintainability)
+
+    Simple infrastructure status display template.
+    DOES NOT display any sensitive information.
+-->
+{% extends "base.html" %}
+
+{% block title %}System Health — Gen'X Vision School System{% endblock %}
+{% block meta_description %}Gen'X Vision School System infrastructure health status.{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h4 mb-0">
+                    <i class="bi bi-heart-pulse-fill me-2"></i>
+                    System Health Status
+                </h1>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-3">Infrastructure verification — Sprint-01</p>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td><strong>System</strong></td>
+                            <td>Gen'X Vision School System</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Django</strong></td>
+                            <td><span class="badge bg-success">Running</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-muted small mt-3 mb-0">
+                    <i class="bi bi-shield-lock-fill me-1"></i>
+                    This endpoint reveals no sensitive configuration data.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

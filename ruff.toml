@@ -21,6 +21,10 @@ ignore = [
 [lint.isort]
 known-first-party = ["apps", "config"]
 
+[lint.per-file-ignores]
+"config/settings/*.py" = ["F403", "F405"]
+
+
 [format]
 quote-style = "double"
 indent-style = "space"

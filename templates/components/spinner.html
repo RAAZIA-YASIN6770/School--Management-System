@@ -1,0 +1,20 @@
+<!--
+    Gen'X Vision School System — Reusable Loading Spinner Component
+    ================================================================
+    Sprint:       SPRINT-01
+    Task:         Sprint-01 Task 5 — Base Template Foundation / Components
+    Traceability: NFR-006 (Usability), TBD-003 (HTMX)
+
+    Used as an HTMX loading indicator during partial page updates.
+
+    Usage:
+        {% include "components/spinner.html" with size="sm" %}
+
+    Sizes: sm, md (default), lg
+-->
+<div class="d-flex justify-content-center align-items-center py-3" role="status"
+     aria-label="Loading...">
+    <div class="spinner-border text-primary spinner-border-{{ size|default:'md' }}"
+         aria-hidden="true"></div>
+    <span class="visually-hidden">Loading...</span>
+</div>

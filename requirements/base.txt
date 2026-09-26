@@ -1,6 +1,9 @@
 # Core Dependencies for Gen'X Vision School System
 django~=5.0.3
-psycopg[binary]~=3.1.18
+# psycopg[binary]: loosened from ~=3.1.18 to >=3.1,<4 for Python 3.13 binary wheel availability
+# MIN-01 resolution: psycopg-binary 3.1.x has no Python 3.13 wheels; 3.3.x does.
+# Approved driver (Psycopg 3, PostgreSQL 16) and architecture unchanged. TBD-004.
+psycopg[binary]>=3.1,<4
 celery~=5.3.6
 redis~=5.0.3
 argon2-cffi~=23.1.0

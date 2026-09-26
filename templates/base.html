@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+    Gen'X Vision School System — Base Template
+    ===========================================
+    Sprint:       SPRINT-01
+    Task:         Sprint-01 Task 5 — Base Template Foundation
+    Traceability: TBD-003 (Bootstrap 5.3 + HTMX), NFR-006 (Usability),
+                  NFR-007 (Mobile Responsiveness), NFR-008 (Maintainability)
+
+    This master layout template provides:
+    - HTML5 semantic structure
+    - Bootstrap 5.3 integration (CDN — production will serve locally)
+    - HTMX 1.9 integration (for dynamic partial page updates)
+    - Responsive navigation foundation
+    - Block structure for child template extension
+    - Message/notification flash display
+    - Static asset loading hooks
+
+    SPRINT-01 SCOPE: Structural foundation only.
+    Full navigation, dashboards, and business screens belong to later sprints.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}Gen'X Vision School System — Integrated School Management{% endblock %}">
+    <meta name="robots" content="noindex, nofollow"><!-- Internal system — do not index -->
+
+    <title>{% block title %}Gen'X Vision School System{% endblock %}</title>
+
+    <!-- Bootstrap 5.3 CSS — TBD-003 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Gen'X Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/genx.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="genx-body">
+
+    <!-- ===================================================================
+         TOP NAVIGATION BAR
+         Sprint-01: Structural foundation.
+         Full role-scoped navigation implemented in SPRINT-20 (Dashboard).
+         =================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark genx-navbar" id="mainNavbar">
+        <div class="container-fluid">
+
+            <!-- Brand / School Identity -->
+            <a class="navbar-brand genx-brand" href="{% url 'health-check' %}">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                <strong>Gen'X Vision</strong>
+                <span class="genx-brand-subtitle d-none d-md-inline">School System</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                    aria-controls="navbarMain" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items — populated by authenticated role in future sprints -->
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% block nav_items %}{% endblock %}
+                </ul>
+
+                <!-- Right-side nav items (user info, logout) -->
+                <ul class="navbar-nav ms-auto">
+                    {% block nav_right %}
+                    <!-- Authentication links will be added in SPRINT-03 -->
+                    {% endblock %}
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- ===================================================================
+         FLASH MESSAGES (Django messages framework)
+         =================================================================== -->
+    {% if messages %}
+    <div class="container-fluid px-4 pt-3" id="flashMessages" aria-live="polite">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ===================================================================
+         MAIN CONTENT AREA
+         =================================================================== -->
+    <main class="genx-main" id="mainContent" role="main">
+        <div class="container-fluid px-4 py-3">
+
+            <!-- Page Header Block -->
+            {% block page_header %}{% endblock %}
+
+            <!-- Primary Content Block -->
+            {% block content %}{% endblock %}
+
+        </div>
+    </main>
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="genx-footer mt-auto py-3">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small class="text-muted">
+                        &copy; {% now "Y" %} Gen'X Vision School System.
+                        All rights reserved.
+                    </small>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small class="text-muted">
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+                        Secure Internal System
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================================================================
+         JAVASCRIPT
+         Bootstrap 5.3 JS Bundle (includes Popper)
+         HTMX 1.9 — for dynamic partial page updates (TBD-003)
+         =================================================================== -->
+
+    <!-- Bootstrap 5.3 JS Bundle — TBD-003 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmHCbLKT12HfZh3dCHF5T1CPTOH"
+            crossorigin="anonymous" defer></script>
+
+    <!-- HTMX 1.9 — TBD-003 — Dynamic page partials -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"
+            integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2uH1wrZmrt3jrJAj+gKbMgFCUncBbF/FkXi"
+            crossorigin="anonymous" defer></script>
+
+    <!-- Gen'X Custom JS Foundation -->
+    {% load static %}
+    <script src="{% static 'js/genx.js' %}" defer></script>
+
+    {% block extra_js %}{% endblock %}
+
+    <!-- HTMX CSRF Token Configuration -->
+    <script>
+        // Configure HTMX to include Django's CSRF token in all requests
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.addEventListener('htmx:configRequest', function (event) {
+                event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+            });
+        });
+    </script>
+
+</body>
+</html>

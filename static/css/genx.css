@@ -1,0 +1,322 @@
+/*
+ * Gen'X Vision School System — Custom CSS Foundation
+ * ====================================================
+ * Sprint:       SPRINT-01
+ * Task:         Sprint-01 Task 5 — Static Asset Foundation
+ * Traceability: TBD-003 (Bootstrap 5.3), NFR-006 (Usability),
+ *               NFR-007 (Mobile Responsiveness)
+ *
+ * This file defines the Gen'X Vision design system tokens and
+ * base structural styles layered on top of Bootstrap 5.3.
+ *
+ * All color, spacing, and typography tokens are defined as CSS custom
+ * properties for consistent application across future sprint templates.
+ *
+ * SPRINT-01 SCOPE: Structural foundation tokens only.
+ * Full dashboard styling belongs to SPRINT-20.
+ */
+
+/* ==========================================================================
+   DESIGN TOKENS — CSS Custom Properties
+   ========================================================================== */
+:root {
+    /* Primary Brand Colors */
+    --genx-primary:       #1a3a5c;   /* Deep school navy */
+    --genx-primary-light: #2c5282;   /* Lighter navy for hover */
+    --genx-accent:        #f6a623;   /* Gold accent — institutional prestige */
+    --genx-accent-dark:   #d4891a;   /* Darker gold for hover states */
+
+    /* Semantic Colors */
+    --genx-success:       #2d7d46;
+    --genx-warning:       #c57e0a;
+    --genx-danger:        #b91c1c;
+    --genx-info:          #1d4ed8;
+
+    /* Background Tones */
+    --genx-bg-main:       #f8f9fc;   /* Off-white main canvas */
+    --genx-bg-card:       #ffffff;
+    --genx-bg-sidebar:    #1a3a5c;
+
+    /* Typography */
+    --genx-font-base:     'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --genx-font-heading:  'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --genx-font-mono:     'JetBrains Mono', 'Courier New', monospace;
+    --genx-font-size-base: 0.9375rem; /* 15px */
+
+    /* Spacing */
+    --genx-border-radius: 0.5rem;
+    --genx-border-radius-sm: 0.25rem;
+    --genx-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --genx-navbar-height: 60px;
+
+    /* Transitions */
+    --genx-transition: 0.2s ease-in-out;
+}
+
+/* ==========================================================================
+   GLOBAL RESET / BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body.genx-body {
+    font-family: var(--genx-font-base);
+    font-size: var(--genx-font-size-base);
+    background-color: var(--genx-bg-main);
+    color: #1f2937;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+.genx-navbar {
+    background-color: var(--genx-primary) !important;
+    height: var(--genx-navbar-height);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 1rem;
+}
+
+.genx-navbar .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--genx-border-radius-sm);
+    transition: background-color var(--genx-transition), color var(--genx-transition);
+}
+
+.genx-navbar .navbar-nav .nav-link:hover,
+.genx-navbar .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.genx-brand {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.genx-brand:hover {
+    color: var(--genx-accent) !important;
+}
+
+.genx-brand-subtitle {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-left: 0.25rem;
+}
+
+/* ==========================================================================
+   MAIN CONTENT
+   ========================================================================== */
+.genx-main {
+    flex: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.genx-footer {
+    background-color: #f1f4f9;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.8125rem;
+}
+
+/* ==========================================================================
+   CARD STYLES
+   ========================================================================== */
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: var(--genx-border-radius);
+    box-shadow: var(--genx-card-shadow);
+}
+
+.card-header {
+    border-radius: calc(var(--genx-border-radius) - 1px) calc(var(--genx-border-radius) - 1px) 0 0 !important;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--genx-font-heading);
+    font-weight: 600;
+    color: var(--genx-primary);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--genx-primary);
+    margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   BUTTONS — Override Bootstrap with Gen'X brand
+   ========================================================================== */
+.btn-primary {
+    background-color: var(--genx-primary);
+    border-color: var(--genx-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--genx-primary-light);
+    border-color: var(--genx-primary-light);
+}
+
+.btn-accent {
+    background-color: var(--genx-accent);
+    border-color: var(--genx-accent);
+    color: #1a3a5c;
+    font-weight: 600;
+}
+
+.btn-accent:hover {
+    background-color: var(--genx-accent-dark);
+    border-color: var(--genx-accent-dark);
+    color: #1a3a5c;
+}
+
+/* ==========================================================================
+   TABLES
+   ========================================================================== */
+.table thead th {
+    background-color: var(--genx-primary);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-color: var(--genx-primary-light);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(26, 58, 92, 0.05);
+}
+
+/* ==========================================================================
+   FORMS
+   ========================================================================== */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--genx-primary-light);
+    box-shadow: 0 0 0 0.2rem rgba(26, 58, 92, 0.15);
+}
+
+label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+/* ==========================================================================
+   HTMX LOADING INDICATORS
+   ========================================================================== */
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: inline-block;
+}
+
+.htmx-request.htmx-indicator {
+    display: inline-block;
+}
+
+/* ==========================================================================
+   UTILITIES
+   ========================================================================== */
+.text-genx-primary {
+    color: var(--genx-primary) !important;
+}
+
+.text-genx-accent {
+    color: var(--genx-accent) !important;
+}
+
+.bg-genx-primary {
+    background-color: var(--genx-primary) !important;
+    color: #ffffff;
+}
+
+.border-genx {
+    border-color: var(--genx-primary) !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+@media (max-width: 767.98px) {
+    .genx-main {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+    }
+
+    .table-responsive-stack {
+        display: block;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   NFR-018: PDF/Excel export. WeasyPrint will use separate templates.
+   These print styles are for browser print preview only.
+   ========================================================================== */
+@media print {
+    .genx-navbar,
+    .genx-footer,
+    .btn,
+    .alert,
+    #mainNavbar {
+        display: none !important;
+    }
+
+    .genx-main {
+        padding: 0;
+    }
+
+    body {
+        background: white;
+        font-size: 11pt;
+    }
+}
