@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <!--
-    Gen'X Vision School System — Base Template
-    ===========================================
-    Sprint:       SPRINT-01
-    Task:         Sprint-01 Task 5 — Base Template Foundation
-    Traceability: TBD-003 (Bootstrap 5.3 + HTMX), NFR-006 (Usability),
-                  NFR-007 (Mobile Responsiveness), NFR-008 (Maintainability)
-
-    This master layout template provides:
-    - HTML5 semantic structure
-    - Bootstrap 5.3 integration (CDN — production will serve locally)
-    - HTMX 1.9 integration (for dynamic partial page updates)
-    - Responsive navigation foundation
-    - Block structure for child template extension
-    - Message/notification flash display
-    - Static asset loading hooks
-
-    SPRINT-01 SCOPE: Structural foundation only.
-    Full navigation, dashboards, and business screens belong to later sprints.
+    Gen'X Vision School System — Base Master Layout Template
+    ========================================================
+    Design Specification:
+    - Modern School ERP Dashboard
+    - Left Sidebar: Deep Royal Blue (#0E3D8A) with Accordion Categories & Sub-Features
+    - Top Header Bar: Clean White with Page Title, Subtitle, Admin Profile & Date
+    - Content Canvas: Soft Slate Gray (#F4F6FB) with Rounded White Cards (16px)
+    - Technologies: HTML5, Bootstrap 5.3, Bootstrap Icons 1.11, HTMX 1.9, Custom Gen'X CSS/JS
 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block meta_description %}Gen'X Vision School System — Integrated School Management{% endblock %}">
-    <meta name="robots" content="noindex, nofollow"><!-- Internal system — do not index -->
+    <meta name="robots" content="noindex, nofollow">
 
     <title>{% block title %}Gen'X Vision School System{% endblock %}</title>
 
-    <!-- Bootstrap 5.3 CSS — TBD-003 -->
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
 
-    <!-- Bootstrap Icons -->
+    <!-- Bootstrap Icons 1.11 -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -48,114 +43,249 @@
 <body class="genx-body">
 
     <!-- ===================================================================
-         TOP NAVIGATION BAR
-         Sprint-01: Structural foundation.
-         Full role-scoped navigation implemented in SPRINT-20 (Dashboard).
+         APP WRAPPER (SIDEBAR + MAIN CONTENT AREA)
          =================================================================== -->
-    <nav class="navbar navbar-expand-lg navbar-dark genx-navbar" id="mainNavbar">
-        <div class="container-fluid">
+    <div class="genx-app-wrapper" id="appWrapper">
 
-            <!-- Brand / School Identity -->
-            <a class="navbar-brand genx-brand" href="{% url 'health-check' %}">
-                <i class="bi bi-mortarboard-fill me-2"></i>
-                <strong>Gen'X Vision</strong>
-                <span class="genx-brand-subtitle d-none d-md-inline">School System</span>
-            </a>
+        <!-- ===============================================================
+             LEFT SIDEBAR (ROYAL BLUE ACCORDION NAVIGATION)
+             =============================================================== -->
+        <aside class="genx-sidebar" id="sidebarMenu">
 
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navbarMain"
-                    aria-controls="navbarMain" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navigation Items — populated by authenticated role in future sprints -->
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% block nav_items %}{% endblock %}
-                </ul>
-
-                <!-- Right-side nav items (user info, logout) -->
-                <ul class="navbar-nav ms-auto">
-                    {% block nav_right %}
-                    <!-- Authentication links will be added in SPRINT-03 -->
-                    {% endblock %}
-                </ul>
+            <!-- Sidebar Brand Header -->
+            <div class="genx-sidebar-brand">
+                <div class="brand-logo-icon">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+                <div class="brand-text-wrapper">
+                    <h5 class="brand-title">{% block school_name %}Talent School{% endblock %}</h5>
+                    <span class="brand-subtitle">Management System</span>
+                </div>
+                <!-- Mobile Close Button -->
+                <button class="btn btn-link text-white d-lg-none ms-auto p-0" id="sidebarCloseBtn" type="button" aria-label="Close sidebar">
+                    <i class="bi bi-x-lg fs-5"></i>
+                </button>
             </div>
 
-        </div>
-    </nav>
+            <!-- Sidebar Navigation Links (Collapsible Accordion Style) -->
+            <nav class="genx-sidebar-nav" id="sidebarNav">
+                <ul class="nav flex-column">
 
-    <!-- ===================================================================
-         FLASH MESSAGES (Django messages framework)
-         =================================================================== -->
-    {% if messages %}
-    <div class="container-fluid px-4 pt-3" id="flashMessages" aria-live="polite">
-        {% for message in messages %}
-        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show"
-             role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+                    <!-- 1. Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' or request.path == '/dashboard/' %}active{% endif %}" href="#">
+                            <span class="nav-icon"><i class="bi bi-grid-fill"></i></span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
 
-    <!-- ===================================================================
-         MAIN CONTENT AREA
-         =================================================================== -->
-    <main class="genx-main" id="mainContent" role="main">
-        <div class="container-fluid px-4 py-3">
+                    <!-- 2. Settings (Expandable Category) -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#settingsSubmenu" aria-expanded="true" aria-controls="settingsSubmenu">
+                            <span class="nav-icon"><i class="bi bi-gear-fill"></i></span>
+                            <span class="nav-text">Settings</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse show submenu-container" id="settingsSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Classes</a></li>
+                                <li><a class="submenu-link" href="#">Sections</a></li>
+                                <li><a class="submenu-link" href="#">Assign Sections</a></li>
+                                <li><a class="submenu-link" href="#">Subjects</a></li>
+                                <li><a class="submenu-link" href="#">Assign Subjects</a></li>
+                                <li><a class="submenu-link" href="#">Exams</a></li>
+                                <li><a class="submenu-link" href="#">Assign Exams</a></li>
+                                <li><a class="submenu-link" href="#">Fee Structure</a></li>
+                                <li><a class="submenu-link" href="#">Assign Fees</a></li>
+                                <li><a class="submenu-link active" href="#">School Branding</a></li>
+                            </ul>
+                        </div>
+                    </li>
 
-            <!-- Page Header Block -->
-            {% block page_header %}{% endblock %}
+                    <!-- 3. Admissions (Expandable Category) -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#admissionsSubmenu" aria-expanded="false" aria-controls="admissionsSubmenu">
+                            <span class="nav-icon"><i class="bi bi-person-plus-fill"></i></span>
+                            <span class="nav-text">Admissions</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse submenu-container" id="admissionsSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Add Student</a></li>
+                                <li><a class="submenu-link" href="#">All Students</a></li>
+                                <li><a class="submenu-link" href="#">Import Students (CSV)</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- 4. Teachers -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#teachersSubmenu" aria-expanded="false" aria-controls="teachersSubmenu">
+                            <span class="nav-icon"><i class="bi bi-building"></i></span>
+                            <span class="nav-text">Teachers</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse submenu-container" id="teachersSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Add Teacher</a></li>
+                                <li><a class="submenu-link" href="#">All Teachers</a></li>
+                                <li><a class="submenu-link" href="#">Assign Classes</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- 5. Attendance -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceSubmenu" aria-expanded="false" aria-controls="attendanceSubmenu">
+                            <span class="nav-icon"><i class="bi bi-calendar-check-fill"></i></span>
+                            <span class="nav-text">Attendance</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse submenu-container" id="attendanceSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Mark Student Attendance</a></li>
+                                <li><a class="submenu-link" href="#">Teacher Attendance</a></li>
+                                <li><a class="submenu-link" href="#">Attendance Reports</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- 6. Exam Management -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#examsSubmenu" aria-expanded="false" aria-controls="examsSubmenu">
+                            <span class="nav-icon"><i class="bi bi-file-earmark-text-fill"></i></span>
+                            <span class="nav-text">Exam Management</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse submenu-container" id="examsSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Exam Schedule</a></li>
+                                <li><a class="submenu-link" href="#">Enter Marks</a></li>
+                                <li><a class="submenu-link" href="#">Result Cards</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- 7. ID Cards -->
+                    <li class="nav-item has-submenu">
+                        <button class="nav-link submenu-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#idCardsSubmenu" aria-expanded="false" aria-controls="idCardsSubmenu">
+                            <span class="nav-icon"><i class="bi bi-person-vcard-fill"></i></span>
+                            <span class="nav-text">ID Cards</span>
+                            <i class="bi bi-chevron-down submenu-arrow ms-auto"></i>
+                        </button>
+                        <div class="collapse submenu-container" id="idCardsSubmenu">
+                            <ul class="nav flex-column submenu-list">
+                                <li><a class="submenu-link" href="#">Student ID Cards</a></li>
+                                <li><a class="submenu-link" href="#">Staff ID Cards</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- System Health Link (Sprint 01 Verification) -->
+                    <li class="nav-item mt-3">
+                        <a class="nav-link {% if '/health/' in request.path %}active{% endif %}" href="{% url 'health-check' %}">
+                            <span class="nav-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                            <span class="nav-text">System Health</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <!-- Sidebar Footer (School Contact Info) -->
+            <div class="genx-sidebar-footer">
+                <div class="footer-contact-item">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>123 Education Street,</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>+92 300 1234567</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>info@talentschool.edu</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Sidebar Backdrop for Mobile Screens -->
+        <div class="genx-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- ===============================================================
+             MAIN RIGHT CONTENT AREA
+             =============================================================== -->
+        <div class="genx-main-wrapper">
+
+            <!-- Top Header Bar (Clean White) -->
+            <header class="genx-top-header" id="mainNavbar">
+                <div class="header-left">
+                    <!-- Mobile Sidebar Toggle -->
+                    <button class="btn btn-link header-mobile-toggle d-lg-none" id="sidebarToggleBtn" type="button" aria-label="Toggle navigation">
+                        <i class="bi bi-list fs-3 text-dark"></i>
+                    </button>
+                    <!-- Page Title & Subtitle -->
+                    <div class="header-title-group">
+                        <h1 class="header-page-title">
+                            {% block page_title %}School Branding{% endblock %}
+                        </h1>
+                        <p class="header-page-subtitle">
+                            {% block page_subtitle %}Manage logo, principal signature, and school details{% endblock %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Date & User Info -->
+                    <div class="user-meta-group">
+                        <span class="user-name">Admin User</span>
+                        <span class="header-date">{% now "l, F d, Y" %}</span>
+                    </div>
+                    <!-- User Avatar Pill -->
+                    <div class="user-avatar-pill">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Flash Messages (Django messages framework) -->
+            {% if messages %}
+            <div class="px-4 pt-3" id="flashMessages" aria-live="polite">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible fade show genx-alert"
+                     role="alert">
+                    <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill{% elif message.tags == 'danger' %}bi-exclamation-octagon-fill{% else %}bi-info-circle-fill{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
             <!-- Primary Content Block -->
-            {% block content %}{% endblock %}
+            <main class="genx-main-content" id="mainContent" role="main">
+                <div class="container-fluid px-4 py-3">
+                    {% block page_header %}{% endblock %}
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
 
         </div>
-    </main>
 
-    <!-- ===================================================================
-         FOOTER
-         =================================================================== -->
-    <footer class="genx-footer mt-auto py-3">
-        <div class="container-fluid px-4">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <small class="text-muted">
-                        &copy; {% now "Y" %} Gen'X Vision School System.
-                        All rights reserved.
-                    </small>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <small class="text-muted">
-                        <i class="bi bi-shield-lock-fill me-1"></i>
-                        Secure Internal System
-                    </small>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </div>
 
-    <!-- ===================================================================
-         JAVASCRIPT
-         Bootstrap 5.3 JS Bundle (includes Popper)
-         HTMX 1.9 — for dynamic partial page updates (TBD-003)
-         =================================================================== -->
-
-    <!-- Bootstrap 5.3 JS Bundle — TBD-003 -->
+    <!-- Bootstrap 5.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmHCbLKT12HfZh3dCHF5T1CPTOH"
             crossorigin="anonymous" defer></script>
 
-    <!-- HTMX 1.9 — TBD-003 — Dynamic page partials -->
+    <!-- HTMX 1.9 -->
     <script src="https://unpkg.com/htmx.org@1.9.12"
             integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2uH1wrZmrt3jrJAj+gKbMgFCUncBbF/FkXi"
             crossorigin="anonymous" defer></script>
 
-    <!-- Gen'X Custom JS Foundation -->
+    <!-- Gen'X Custom JS -->
     {% load static %}
     <script src="{% static 'js/genx.js' %}" defer></script>
 
@@ -163,7 +293,6 @@
 
     <!-- HTMX CSRF Token Configuration -->
     <script>
-        // Configure HTMX to include Django's CSRF token in all requests
         document.addEventListener('DOMContentLoaded', function () {
             document.body.addEventListener('htmx:configRequest', function (event) {
                 event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';

@@ -5,7 +5,7 @@ Sprint:       SPRINT-01
 Task:         Sprint-01 Task 13 — Health / Basic System Verification
 Traceability: NFR-008 (Maintainability), NFR-019 (Single Database)
 
-Contains only the minimal infrastructure health check view.
+Contains minimal infrastructure health check view and visual UI preview view.
 Business views belong to their respective authorized sprint apps.
 
 SECURITY NOTE:
@@ -21,6 +21,7 @@ import logging
 
 from django.db import OperationalError, connection
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 
 logger = logging.getLogger("genx")
@@ -63,3 +64,28 @@ class HealthCheckView(View):
             http_status = 503
 
         return JsonResponse(health_data, status=http_status)
+
+
+class HealthUIView(View):
+    """
+    Renders the visual foundation dashboard with system status.
+    Serves as the frontend foundation preview for Sprint-01.
+    """
+
+    def get(self, request, *args, **kwargs):
+        db_status = "connected"
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+                cursor.fetchone()
+        except OperationalError:
+            db_status = "unavailable"
+
+        return render(
+            request,
+            "health.html",
+            {
+                "system_name": "Gen'X Vision School System",
+                "db_status": db_status,
+            },
+        )

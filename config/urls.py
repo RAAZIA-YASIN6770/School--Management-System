@@ -31,10 +31,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from config.views import HealthUIView
+
 # ---------------------------------------------------------------------------
 # URL PATTERNS — Sprint-01 Foundation
 # ---------------------------------------------------------------------------
 urlpatterns = [
+    # Root Visual Dashboard Preview — Sprint-01 frontend foundation
+    path("", HealthUIView.as_view(), name="home"),
     # Django Admin — accessible to authorized admin users
     path("admin/", admin.site.urls),
     # System health check — Sprint-01 infrastructure verification endpoint

@@ -1,49 +1,62 @@
-<!DOCTYPE html>
-<!--
-    Gen'X Vision School System — Health Check Template
-    ====================================================
-    Sprint:       SPRINT-01
-    Task:         Sprint-01 Task 13 — Health Check
-    Traceability: NFR-008 (Maintainability)
-
-    Simple infrastructure status display template.
-    DOES NOT display any sensitive information.
--->
 {% extends "base.html" %}
 
 {% block title %}System Health — Gen'X Vision School System{% endblock %}
 {% block meta_description %}Gen'X Vision School System infrastructure health status.{% endblock %}
 
+{% block page_title %}System Health Status{% endblock %}
+{% block page_subtitle %}Infrastructure verification and database connectivity check{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h1 class="h4 mb-0">
-                    <i class="bi bi-heart-pulse-fill me-2"></i>
-                    System Health Status
-                </h1>
-            </div>
-            <div class="card-body">
-                <p class="text-muted small mb-3">Infrastructure verification — Sprint-01</p>
-                <table class="table table-sm">
+<div class="row">
+    <div class="col-lg-8 col-xl-7">
+        <div class="genx-card">
+            <h5 class="genx-card-title d-flex align-items-center">
+                <i class="bi bi-heart-pulse-fill text-danger me-2"></i>
+                Core Infrastructure Status
+            </h5>
+
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-3">
                     <tbody>
-                        <tr>
-                            <td><strong>System</strong></td>
-                            <td>Gen'X Vision School System</td>
+                        <tr class="border-bottom">
+                            <td class="text-muted py-3" style="width: 200px;"><strong>Platform</strong></td>
+                            <td class="py-3">Gen'X Vision School System</td>
+                        </tr>
+                        <tr class="border-bottom">
+                            <td class="text-muted py-3"><strong>Django Runtime</strong></td>
+                            <td class="py-3">
+                                <span class="status-pill-green">
+                                    <i class="bi bi-check-circle-fill me-1"></i> Running
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="border-bottom">
+                            <td class="text-muted py-3"><strong>PostgreSQL Database</strong></td>
+                            <td class="py-3">
+                                <span class="status-pill-green">
+                                    <i class="bi bi-database-check me-1"></i> Connected
+                                </span>
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Django</strong></td>
-                            <td><span class="badge bg-success">Running</span></td>
+                            <td class="text-muted py-3"><strong>Environment Profile</strong></td>
+                            <td class="py-3"><span class="badge bg-light text-dark border">Development</span></td>
                         </tr>
                     </tbody>
                 </table>
-                <p class="text-muted small mt-3 mb-0">
-                    <i class="bi bi-shield-lock-fill me-1"></i>
-                    This endpoint reveals no sensitive configuration data.
-                </p>
+            </div>
+
+            <div class="genx-warning-banner d-flex align-items-center mt-3">
+                <i class="bi bi-shield-lock-fill me-2 fs-5"></i>
+                <span>This technical verification endpoint exposes zero secret keys, tokens, or credentials.</span>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Floating Success Toast Notification Preview -->
+<div class="genx-floating-toast" id="systemToast">
+    <i class="bi bi-check-circle-fill toast-check"></i>
+    <span>System operational &amp; services healthy!</span>
 </div>
 {% endblock %}

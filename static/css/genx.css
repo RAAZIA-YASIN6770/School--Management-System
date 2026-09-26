@@ -1,60 +1,56 @@
 /*
- * Gen'X Vision School System — Custom CSS Foundation
- * ====================================================
- * Sprint:       SPRINT-01
- * Task:         Sprint-01 Task 5 — Static Asset Foundation
- * Traceability: TBD-003 (Bootstrap 5.3), NFR-006 (Usability),
- *               NFR-007 (Mobile Responsiveness)
- *
- * This file defines the Gen'X Vision design system tokens and
- * base structural styles layered on top of Bootstrap 5.3.
- *
- * All color, spacing, and typography tokens are defined as CSS custom
- * properties for consistent application across future sprint templates.
- *
- * SPRINT-01 SCOPE: Structural foundation tokens only.
- * Full dashboard styling belongs to SPRINT-20.
+ * Gen'X Vision School System — Master CSS Theme
+ * =============================================
+ * Sprint-01 Foundation & Modern ERP Layout
+ * Theme: Deep Royal Blue Sidebar + Clean White Cards + Vibrant Blue Accents
  */
 
 /* ==========================================================================
-   DESIGN TOKENS — CSS Custom Properties
+   1. DESIGN TOKENS & VARIABLES
    ========================================================================== */
 :root {
-    /* Primary Brand Colors */
-    --genx-primary:       #1a3a5c;   /* Deep school navy */
-    --genx-primary-light: #2c5282;   /* Lighter navy for hover */
-    --genx-accent:        #f6a623;   /* Gold accent — institutional prestige */
-    --genx-accent-dark:   #d4891a;   /* Darker gold for hover states */
+    /* Royal Blue Primary Palette */
+    --genx-sidebar-bg:       #0E3D8A;
+    --genx-sidebar-hover:    rgba(255, 255, 255, 0.08);
+    --genx-sidebar-active:   rgba(255, 255, 255, 0.15);
+    --genx-sidebar-text:     #FFFFFF;
+    --genx-sidebar-muted:    rgba(255, 255, 255, 0.72);
+    --genx-sidebar-width:    260px;
 
-    /* Semantic Colors */
-    --genx-success:       #2d7d46;
-    --genx-warning:       #c57e0a;
-    --genx-danger:        #b91c1c;
-    --genx-info:          #1d4ed8;
+    /* Primary Accent & Action Colors */
+    --genx-primary:          #1868F2;
+    --genx-primary-hover:    #1254C7;
+    --genx-primary-light:    #EBF2FE;
+    --genx-accent:           #F6A623;
 
-    /* Background Tones */
-    --genx-bg-main:       #f8f9fc;   /* Off-white main canvas */
-    --genx-bg-card:       #ffffff;
-    --genx-bg-sidebar:    #1a3a5c;
+    /* Semantic Feedback Colors */
+    --genx-success:          #10B981;
+    --genx-success-light:    #D1FAE5;
+    --genx-success-dark:     #065F46;
+    --genx-warning:          #F59E0B;
+    --genx-warning-light:    #FEF3C7;
+    --genx-warning-dark:     #92400E;
+    --genx-danger:           #EF4444;
+    --genx-danger-light:     #FEE2E2;
+
+    /* Canvas & Surface Backgrounds */
+    --genx-bg-canvas:        #F4F6FB;
+    --genx-bg-card:          #FFFFFF;
+    --genx-header-height:    72px;
+
+    /* Borders & Shadows */
+    --genx-border-color:     #E5E9F2;
+    --genx-border-radius:    16px;
+    --genx-border-radius-sm: 10px;
+    --genx-card-shadow:      0 2px 12px rgba(15, 68, 153, 0.04);
+    --genx-card-shadow-hover:0 6px 20px rgba(15, 68, 153, 0.08);
 
     /* Typography */
-    --genx-font-base:     'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --genx-font-heading:  'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --genx-font-mono:     'JetBrains Mono', 'Courier New', monospace;
-    --genx-font-size-base: 0.9375rem; /* 15px */
-
-    /* Spacing */
-    --genx-border-radius: 0.5rem;
-    --genx-border-radius-sm: 0.25rem;
-    --genx-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --genx-navbar-height: 60px;
-
-    /* Transitions */
-    --genx-transition: 0.2s ease-in-out;
+    --genx-font-base:        'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* ==========================================================================
-   GLOBAL RESET / BASE
+   2. GLOBAL BASE STYLES
    ========================================================================== */
 *,
 *::before,
@@ -62,261 +58,517 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body.genx-body {
     font-family: var(--genx-font-base);
-    font-size: var(--genx-font-size-base);
-    background-color: var(--genx-bg-main);
-    color: #1f2937;
+    background-color: var(--genx-bg-canvas);
+    color: #1F2937;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   3. APP WRAPPER LAYOUT
+   ========================================================================== */
+.genx-app-wrapper {
+    display: flex;
     min-height: 100vh;
+    width: 100%;
+}
+
+/* ==========================================================================
+   4. ROYAL BLUE LEFT SIDEBAR
+   ========================================================================== */
+.genx-sidebar {
+    width: var(--genx-sidebar-width);
+    background-color: var(--genx-sidebar-bg);
+    color: var(--genx-sidebar-text);
     display: flex;
     flex-direction: column;
-    line-height: 1.6;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: transform 0.25s ease-in-out;
 }
 
-/* ==========================================================================
-   NAVBAR
-   ========================================================================== */
-.genx-navbar {
-    background-color: var(--genx-primary) !important;
-    height: var(--genx-navbar-height);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    padding: 0 1rem;
+/* Custom Scrollbar for Sidebar */
+.genx-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+.genx-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.genx-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
 }
 
-.genx-navbar .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.85) !important;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.5rem 0.875rem;
-    border-radius: var(--genx-border-radius-sm);
-    transition: background-color var(--genx-transition), color var(--genx-transition);
-}
-
-.genx-navbar .navbar-nav .nav-link:hover,
-.genx-navbar .navbar-nav .nav-link.active {
-    color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.12);
-}
-
-.genx-brand {
-    color: #ffffff !important;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-decoration: none;
+/* Sidebar Brand Header */
+.genx-sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.genx-brand:hover {
-    color: var(--genx-accent) !important;
+.brand-logo-icon {
+    width: 44px;
+    height: 44px;
+    background-color: #FFFFFF;
+    color: var(--genx-sidebar-bg);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
 }
 
-.genx-brand-subtitle {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.8rem;
+.brand-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.brand-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.brand-subtitle {
+    font-size: 0.75rem;
+    color: var(--genx-sidebar-muted);
     font-weight: 400;
-    margin-left: 0.25rem;
+    margin-top: 2px;
 }
 
-/* ==========================================================================
-   MAIN CONTENT
-   ========================================================================== */
-.genx-main {
+/* Sidebar Navigation Items */
+.genx-sidebar-nav {
     flex: 1;
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
+    padding: 1rem 0.75rem;
+}
+
+.genx-sidebar-nav .nav-link,
+.genx-sidebar-nav .submenu-toggle {
+    display: flex;
+    align-items: center;
+    color: var(--genx-sidebar-text);
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.genx-sidebar-nav .nav-link:hover,
+.genx-sidebar-nav .submenu-toggle:hover {
+    background-color: var(--genx-sidebar-hover);
+    color: #FFFFFF;
+}
+
+.genx-sidebar-nav .nav-link.active {
+    background-color: var(--genx-sidebar-active);
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.genx-sidebar-nav .nav-icon {
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+}
+
+.submenu-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.submenu-toggle.collapsed .submenu-arrow {
+    transform: rotate(-90deg);
+}
+
+/* Submenu Lists */
+.submenu-container {
+    padding-left: 2rem;
+    padding-right: 0.5rem;
+}
+
+.submenu-list {
+    list-style: none;
+    padding: 0.25rem 0;
+    margin: 0;
+}
+
+.submenu-link {
+    display: block;
+    color: var(--genx-sidebar-muted);
+    padding: 0.45rem 0.75rem;
+    font-size: 0.84rem;
+    font-weight: 400;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.submenu-link:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.submenu-link.active {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.12);
+    font-weight: 500;
+}
+
+/* Sidebar Footer */
+.genx-sidebar-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.78rem;
+    color: var(--genx-sidebar-muted);
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.footer-contact-item i {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.footer-contact-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ==========================================================================
-   FOOTER
+   5. RIGHT MAIN CONTENT AREA & HEADER
    ========================================================================== */
-.genx-footer {
-    background-color: #f1f4f9;
-    border-top: 1px solid #e2e8f0;
-    font-size: 0.8125rem;
+.genx-main-wrapper {
+    flex: 1;
+    margin-left: var(--genx-sidebar-width);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--genx-bg-canvas);
+    transition: margin-left 0.25s ease-in-out;
+}
+
+/* Top Header */
+.genx-top-header {
+    height: var(--genx-header-height);
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--genx-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-page-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.header-page-subtitle {
+    font-size: 0.82rem;
+    color: #6B7280;
+    margin: 2px 0 0 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.user-meta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.header-date {
+    font-size: 0.75rem;
+    color: #6B7280;
+}
+
+.user-avatar-pill {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #E0E7FF;
+    color: #2563EB;
+    border: 2px solid #BFDBFE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Main Content Body */
+.genx-main-content {
+    flex: 1;
+    padding: 1.5rem 0.5rem;
 }
 
 /* ==========================================================================
-   CARD STYLES
+   6. CARDS, FORMS, BUTTONS & COMPONENTS
    ========================================================================== */
-.card {
-    border: 1px solid #e2e8f0;
+.card,
+.genx-card {
+    background-color: var(--genx-bg-card);
+    border: 1px solid var(--genx-border-color);
     border-radius: var(--genx-border-radius);
     box-shadow: var(--genx-card-shadow);
-}
-
-.card-header {
-    border-radius: calc(var(--genx-border-radius) - 1px) calc(var(--genx-border-radius) - 1px) 0 0 !important;
-    font-weight: 600;
-}
-
-/* ==========================================================================
-   TYPOGRAPHY
-   ========================================================================== */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--genx-font-heading);
-    font-weight: 600;
-    color: var(--genx-primary);
-}
-
-.page-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--genx-primary);
-    margin-bottom: 0.25rem;
-}
-
-.page-subtitle {
-    font-size: 0.875rem;
-    color: #6b7280;
+    padding: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-/* ==========================================================================
-   BUTTONS — Override Bootstrap with Gen'X brand
-   ========================================================================== */
-.btn-primary {
+.card-title,
+.genx-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.25rem;
+}
+
+/* Form Controls */
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.4rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #D1D5DB;
+    border-radius: var(--genx-border-radius-sm);
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    color: #111827;
+    background-color: #FFFFFF;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--genx-primary);
+    box-shadow: 0 0 0 3px rgba(24, 104, 242, 0.15);
+    outline: none;
+}
+
+/* Action Buttons */
+.btn-primary,
+.btn-genx-primary {
     background-color: var(--genx-primary);
     border-color: var(--genx-primary);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: var(--genx-border-radius-sm);
+    box-shadow: 0 2px 6px rgba(24, 104, 242, 0.25);
+    transition: all 0.15s ease-in-out;
 }
 
 .btn-primary:hover,
-.btn-primary:focus {
-    background-color: var(--genx-primary-light);
-    border-color: var(--genx-primary-light);
+.btn-primary:focus,
+.btn-genx-primary:hover {
+    background-color: var(--genx-primary-hover);
+    border-color: var(--genx-primary-hover);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(24, 104, 242, 0.35);
 }
 
-.btn-accent {
-    background-color: var(--genx-accent);
-    border-color: var(--genx-accent);
-    color: #1a3a5c;
+/* Grade / Class / Chip Badges */
+.genx-item-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background-color: #FFFFFF;
+    border: 1px solid #BFDBFE;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.genx-item-chip-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #EFF6FF;
+    color: #2563EB;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.genx-item-chip-text {
     font-weight: 600;
+    font-size: 0.9rem;
+    color: #1E293B;
 }
 
-.btn-accent:hover {
-    background-color: var(--genx-accent-dark);
-    border-color: var(--genx-accent-dark);
-    color: #1a3a5c;
+.genx-item-chip-delete {
+    color: #94A3B8;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem;
+    transition: color 0.15s ease;
 }
 
-/* ==========================================================================
-   TABLES
-   ========================================================================== */
-.table thead th {
-    background-color: var(--genx-primary);
-    color: #ffffff;
+.genx-item-chip-delete:hover {
+    color: var(--genx-danger);
+}
+
+/* Green Status Pill */
+.status-pill-green {
+    background-color: var(--genx-success-light);
+    color: var(--genx-success-dark);
     font-weight: 600;
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border-color: var(--genx-primary-light);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    display: inline-block;
 }
 
-.table-hover tbody tr:hover {
-    background-color: rgba(26, 58, 92, 0.05);
-}
-
-/* ==========================================================================
-   FORMS
-   ========================================================================== */
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--genx-primary-light);
-    box-shadow: 0 0 0 0.2rem rgba(26, 58, 92, 0.15);
-}
-
-label {
+/* Amber Warning Banner */
+.genx-warning-banner {
+    background-color: var(--genx-warning-light);
+    border: 1px solid #FDE68A;
+    color: var(--genx-warning-dark);
+    border-radius: var(--genx-border-radius-sm);
+    padding: 0.85rem 1.25rem;
+    font-size: 0.88rem;
     font-weight: 500;
-    font-size: 0.875rem;
-    color: #374151;
-    margin-bottom: 0.25rem;
+}
+
+/* Floating Success Toast (Bottom Right) */
+.genx-floating-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: #111827;
+    color: #FFFFFF;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 1080;
+    animation: slideUpToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.genx-floating-toast .toast-check {
+    color: #10B981;
+    font-size: 1.1rem;
+}
+
+@keyframes slideUpToast {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* ==========================================================================
-   HTMX LOADING INDICATORS
+   7. RESPONSIVE BREAKPOINTS (MOBILE & TABLET)
    ========================================================================== */
-.htmx-indicator {
+.genx-sidebar-backdrop {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1030;
 }
 
-.htmx-request .htmx-indicator {
-    display: inline-block;
-}
-
-.htmx-request.htmx-indicator {
-    display: inline-block;
-}
-
-/* ==========================================================================
-   UTILITIES
-   ========================================================================== */
-.text-genx-primary {
-    color: var(--genx-primary) !important;
-}
-
-.text-genx-accent {
-    color: var(--genx-accent) !important;
-}
-
-.bg-genx-primary {
-    background-color: var(--genx-primary) !important;
-    color: #ffffff;
-}
-
-.border-genx {
-    border-color: var(--genx-primary) !important;
-}
-
-/* ==========================================================================
-   RESPONSIVE ADJUSTMENTS
-   ========================================================================== */
-@media (max-width: 767.98px) {
-    .genx-main {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+@media (max-width: 991.98px) {
+    .genx-sidebar {
+        transform: translateX(-100%);
     }
 
-    .page-title {
-        font-size: 1.25rem;
+    .genx-sidebar.show {
+        transform: translateX(0);
     }
 
-    .table-responsive-stack {
+    .genx-sidebar-backdrop.show {
         display: block;
     }
-}
 
-@media (max-width: 575.98px) {
-    .container-fluid {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-}
-
-/* ==========================================================================
-   PRINT STYLES
-   NFR-018: PDF/Excel export. WeasyPrint will use separate templates.
-   These print styles are for browser print preview only.
-   ========================================================================== */
-@media print {
-    .genx-navbar,
-    .genx-footer,
-    .btn,
-    .alert,
-    #mainNavbar {
-        display: none !important;
+    .genx-main-wrapper {
+        margin-left: 0;
     }
 
-    .genx-main {
-        padding: 0;
-    }
-
-    body {
-        background: white;
-        font-size: 11pt;
+    .genx-top-header {
+        padding: 0 1rem;
     }
 }
